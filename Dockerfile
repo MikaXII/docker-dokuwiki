@@ -6,8 +6,8 @@ ENV CHECKSUM dfdb243cc766482eeefd99e70215b289c9aa0bd8bee83068f438440d7b1a1ce6
 
 ADD dokuwiki.sh /usr/local/bin/dokuwiki
 
-RUN apk --no-cache add lighttpd php5-cgi php5-curl php5-gd php5-json php5-openssl php5-xml php5-zlib \
-    && wget http://download.dokuwiki.org/src/dokuwiki/dokuwiki-$VERSION.tgz \
+RUN apk --no-cache add curl lighttpd php5-cgi php5-curl php5-gd php5-json php5-openssl php5-xml php5-zlib \
+    && curl -Lo dokuwiki.tgz http://download.dokuwiki.org/src/dokuwiki/dokuwiki-$VERSION.tgz \
     && echo $CHECKSUM "" dokuwiki*.tgz | sha256sum -c - \
     && tar zxf dokuwiki*.tgz \
     && rm dokuwiki*.tgz \

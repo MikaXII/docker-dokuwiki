@@ -7,8 +7,8 @@ ENV PANDOC_VERSION 1.17.0.2
 ENV LIBGMP10_VERSION 6.0.0
 ENV SOURCE /tmp/recalbox-os.wiki
 ENV DEST /dokuwiki/data/pages
-ENV LOG  ./migration.log
-ENV ERR ./migration.err
+ENV LOG  /migration.log
+ENV ERR /migration.err
 ENV MEDIA /dokuwiki/data/media
 ENV WIKI_SOURCE https://github.com/recalbox/recalbox-os.wiki.git
 
@@ -33,6 +33,8 @@ RUN dpkg -i libgmp10.deb && rm libgmp10.deb
 RUN dpkg -i pandoc.deb && rm pandoc.deb
 
 # Add migration here with import true/false
+ADD migration.sh /usr/local/bin/migration.sh
+RUN migration.sh
 
 ADD lighttpd.conf /etc/lighttpd/lighttpd.conf
 

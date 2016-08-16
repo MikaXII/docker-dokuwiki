@@ -32,6 +32,7 @@ RUN wget http://ftp.fr.debian.org/debian/pool/main/g/gmp/libgmp10_$LIBGMP10_VERS
 RUN dpkg -i libgmp10.deb && rm libgmp10.deb
 RUN dpkg -i pandoc.deb && rm pandoc.deb
 
+# Add migration here with import true/false
 
 ADD lighttpd.conf /etc/lighttpd/lighttpd.conf
 

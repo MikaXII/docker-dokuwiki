@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM ubuntu:14.04
 MAINTAINER MikaXII <mika@recalbox.com>
 
 ENV DOKUWIKI_VERSION  2016-06-26a
@@ -14,8 +14,12 @@ ENV WIKI_SOURCE https://github.com/recalbox/recalbox-os.wiki.git
 
 ADD dokuwiki.sh /usr/local/bin/dokuwiki
 
-RUN apk --no-cache add curl lighttpd php5-cgi php5-curl php5-gd php5-json php5-openssl php5-xml php5-zlib bash git dpkg ca-certificates \
-    && curl -Lo dokuwiki.tgz http://download.dokuwiki.org/src/dokuwiki/dokuwiki-$DOKUWIKI_VERSION.tgz \
+#RUN apk --no-cache add curl lighttpd php5-cgi php5-curl php5-gd php5-json php5-openssl php5-xml php5-zlib bash git dpkg ca-certificates \
+RUN apt-get update && apt-get install -y curl lighttpd php5-cgi php5-curl php5-gd php5-json bash git dpkg ca-certificates libgmp10 && \
+    apt-get clean autoclean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/{apt,dpkg,cache,log} && \   
+    curl -Lo dokuwiki.tgz http://download.dokuwiki.org/src/dokuwiki/dokuwiki-$DOKUWIKI_VERSION.tgz \
     && echo $DOKUWIKI_CHECKSUM "" dokuwiki*.tgz | sha256sum -c - \
     && tar zxf dokuwiki*.tgz \
     && rm dokuwiki*.tgz \
@@ -27,9 +31,12 @@ RUN apk --no-cache add curl lighttpd php5-cgi php5-curl php5-gd php5-json php5-o
 # Pandoc + deb
 # http://ftp.fr.debian.org/debian/pool/main/g/gmp/libgmp10_$LIBGMP10_VERSION+dfsg-6_amd64.deb -O libgmp10.deb
 # https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb -O pandoc.deb
-RUN wget https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb -O pandoc.deb
-RUN wget http://ftp.fr.debian.org/debian/pool/main/g/gmp/libgmp10_$LIBGMP10_VERSION+dfsg-6_amd64.deb -O libgmp10.deb
-RUN dpkg -i libgmp10.deb && rm libgmp10.deb
+#RUN wget https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb -O pandoc.deb
+#RUN wget http://ftp.fr.debian.org/debian/pool/main/g/gmp/libgmp10_$LIBGMP10_VERSION+dfsg-6_amd64.deb -O libgmp10.deb
+RUN curl -Lo pandoc.deb https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
+#RUN curl -Lo libgmp10.deb http://ftp.fr.debian.org/debian/pool/main/g/gmp/libgmp10_$LIBGMP10_VERSION+dfsg-6_amd64.deb
+#RUN dpkg --clear-avail
+#RUN dpkg -i libgmp10.deb && rm libgmp10.deb
 RUN dpkg -i pandoc.deb && rm pandoc.deb
 
 # Add migration here with import true/false

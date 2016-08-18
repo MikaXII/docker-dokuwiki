@@ -75,7 +75,7 @@ ENTRYPOINT ["/usr/sbin/lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
 #ADD lighttpd.conf /etc/lighttpd/lighttpd.conf
 
 #VOLUME ["/dokuwiki/data", "/dokuwiki/lib/plugins", \
-        "/dokuwiki/conf", "/dokuwiki/lib/tpl"]
+#        "/dokuwiki/conf", "/dokuwiki/lib/tpl"]
 
 #EXPOSE 80
 

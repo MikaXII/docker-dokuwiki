@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER MikaXII <mika@recalbox.com>
 
 ENV DOKUWIKI_VERSION  2016-06-26a
-ENV DOKUWIKI_CHECKSUM dfdb243cc766482eeefd99e70215b289c9aa0bd8bee83068f438440d7b1a1ce6
+ENV DOKUWIKI_CHECKSUM 9b9ad79421a1bdad9c133e859140f3f2
 ENV PANDOC_VERSION 1.17.0.2
 ENV LIBGMP10_VERSION 6.0.0
 ENV SOURCE /tmp/recalbox-os.wiki
@@ -27,13 +27,13 @@ ADD dokuwiki.sh /usr/local/bin/dokuwiki
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
     apt-get -y upgrade && \
-    apt-get -y install wget curl lighttpd php5-cgi php5-gd php5-ldap && \
+    apt-get -y install wget git curl lighttpd php5-cgi php5-gd php5-ldap && \
     apt-get clean autoclean && \
     apt-get autoremove && \
     rm -rf /var/lib/{apt,dpkg,cache,log}
 
 RUN curl -Lo /dokuwiki.tgz "http://download.dokuwiki.org/src/dokuwiki/dokuwiki-$DOKUWIKI_VERSION.tgz" && \
-    if [ "$DOKUWIKI_CSUM" != "$(md5sum /dokuwiki.tgz | awk '{print($1)}')" ];then echo "Wrong md5sum of downloaded file!"; exit 1; fi && \
+    if [ "$DOKUWIKI_CHECKSUM" != "$(md5sum /dokuwiki.tgz | awk '{print($1)}')" ];then echo "Wrong md5sum of downloaded file!"; exit 1; fi && \
     mkdir /dokuwiki && \
     tar -zxf dokuwiki.tgz -C /dokuwiki --strip-components 1 && \
     rm dokuwiki.tgz
@@ -44,9 +44,9 @@ RUN curl -Lo /dokuwiki.tgz "http://download.dokuwiki.org/src/dokuwiki/dokuwiki-$
 #RUN wget https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb -O pandoc.deb
 #RUN wget http://ftp.fr.debian.org/debian/pool/main/g/gmp/libgmp10_$LIBGMP10_VERSION+dfsg-6_amd64.deb -O libgmp10.deb
 RUN curl -Lo pandoc.deb https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
-#RUN curl -Lo libgmp10.deb http://ftp.fr.debian.org/debian/pool/main/g/gmp/libgmp10_$LIBGMP10_VERSION+dfsg-6_amd64.deb
+RUN curl -Lo libgmp10.deb http://ftp.fr.debian.org/debian/pool/main/g/gmp/libgmp10_$LIBGMP10_VERSION+dfsg-6_amd64.deb
 #RUN dpkg --clear-avail
-#RUN dpkg -i libgmp10.deb && rm libgmp10.deb
+RUN dpkg -i libgmp10.deb && rm libgmp10.deb
 RUN dpkg -i pandoc.deb && rm pandoc.deb
 
 

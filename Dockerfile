@@ -64,7 +64,7 @@ VOLUME ["/dokuwiki/data/","/dokuwiki/lib/plugins/","/dokuwiki/conf/","/dokuwiki/
 
 # Add migration here with import true/false
 ADD migration.sh /usr/local/bin/migration.sh
-RUN migration.sh
+# RUN migration.sh
 
 
 ENTRYPOINT ["/usr/sbin/lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]

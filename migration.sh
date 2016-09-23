@@ -67,5 +67,5 @@ for file in $(ls $SOURCE/*.md); do
   # remplacer les liens des images
 done
 
-#chown -R www-data:www-data $DEST
+chown -R www-data:www-data $DEST
 chmod -R 755 $DEST

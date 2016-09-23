@@ -1,4 +1,9 @@
 #!/usr/bin/env ash
-chown -R lighttpd. /dokuwiki \
-    && lighttpd -D -f /etc/lighttpd/lighttpd.conf
+# "/usr/sbin/lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"
+if [ ! -e ".stamp_migration" ]
+  date > last_import.log
+  /usr/local/bin/migration.sh
+  touch .stamp_migration
+fi
+/usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf
 

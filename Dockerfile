@@ -67,7 +67,7 @@ ADD migration.sh /usr/local/bin/migration.sh
 # RUN migration.sh
 
 
-ENTRYPOINT ["/usr/sbin/lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
+ENTRYPOINT ["/usr/local/bin/dokuwiki"]
 
 
 

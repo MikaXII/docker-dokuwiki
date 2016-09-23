@@ -1,4 +1,4 @@
-#!/usr/bin/env ash
+#!/bin/bash
 # "/usr/sbin/lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"
 if [ ! -e ".stamp_migration" ]
   date > last_import.log

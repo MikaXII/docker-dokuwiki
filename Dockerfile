@@ -66,7 +66,7 @@ VOLUME ["/dokuwiki/data/","/dokuwiki/lib/plugins/","/dokuwiki/conf/","/dokuwiki/
 ADD migration.sh /usr/local/bin/migration.sh
 # RUN migration.sh
 
-
+RUN chmod + x /usr/local/bin/dokuwiki
 ENTRYPOINT ["/usr/local/bin/dokuwiki"]
 
 
